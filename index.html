@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link rel="stylesheet" href="style/main.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="js/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/vue-masonry@0.10.12/dist/vue-masonry-plugin.js"></script>
+
+    <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+
+    <title>MasonryLink</title>
+</head>
+
+<body>
+    <header>
+        <div class="content">
+            <h3 id="mainTitle">{{mainTitle}}</h3>
+        </div>
+    </header>
+    <main>
+
+        <div class="content" id="app">
+            <div class="sidebar">
+                <ul>
+                    <li v-for="category in categories">
+                        <span>{{category.name}}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="right">
+                <div class="searchBar">
+                    <span>
+                        <input type="text">
+                    </span>
+
+                </div>
+                <!-- masonry -->
+                <div class="case" v-masonry transition-duration="0.3s" item-selector=".card">
+
+                    <div class="card" v-masonry-tile v-for="card in list">
+                        <div class="card_content">
+
+                            <a :href="card.pic" target="_blank" class="pic" :style="{ 'background-image' : 'url(\'' + card.pic + '\')' }"></a>
+                            <div class="text">{{card.text}}</div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+
+</html>
+<script>
+    // var Vue = require('vue')
+    // var VueFire = require('vuefire')
+    // var firebase = require('firebase')
+
+    // explicit installation required in module environments
+    Vue.use(VueFire)
+
+    // Initialize Firebase
+    let config = {
+        apiKey: "AIzaSyCeAMQX4JdKTkpXO4aZ2p63OKTpssqmqqI",
+        authDomain: "masonrylink.firebaseapp.com",
+        databaseURL: "https://masonrylink.firebaseio.com",
+        projectId: "masonrylink",
+        storageBucket: "masonrylink.appspot.com",
+        messagingSenderId: "1049376582100"
+    };
+    firebase.initializeApp(config);
+
+    let db = firebase.database();
+
+
+
+
+
+
+
+
+
+
+    new Vue({
+        el: '.mainTitle',
+        data: {
+            mainTitle: 'it s work~'
+        }
+    })
+
+
+    Vue.use(window['vue-masonry-plugin'].VueMasonryPlugin);
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            categories: ''
+        },
+        firebase: {
+            list: db.ref('case'),
+            categories: db.ref('categories')
+        }
+    })
+</script>

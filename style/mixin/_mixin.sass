@@ -1,0 +1,60 @@
+@charset "UTF-8"
+// size: rectangle or square
+@mixin size($w,$h:$w)
+    width: $w
+    height: $h
+//triangle
+@mixin triangle($w,$h,$color,$direction)
+    width: 0
+    height: 0
+    border-style: solid
+    @if $direction == top
+        border-color: transparent transparent $color transparent
+        border-width: 0 $w/2 $h
+    @if $direction == left
+        border-color: transparent $color transparent transparent
+        border-width: $h/2 $w $h/2 0
+    @if $direction == bottom
+        border-color: $color transparent transparent transparent
+        border-width: $h $w/2 0
+    @if $direction == right
+        border-color: transparent transparent transparent $color
+        border-width: $h/2 0 $h/2 $w
+    @if $direction == top-right or $direction == right-top
+        border-color: transparent $color transparent transparent
+        border-width: 0 $w $h 0
+    @if $direction == top-left or $direction == left-top
+        border-color: $color transparent transparent transparent
+        border-width: $h $w 0 0   
+    @if $direction == bottom-right or $direction == right-bottom
+        border-color: transparent $color transparent transparent
+        border-width: $h $w 0 0
+    @if $direction == bottom-left or $direction == left-bottom
+        border-color: transparent transparent $color transparent
+        border-width: 0 $w $h 0
+// circle    
+@mixin circle($r,$color)
+    width: $r
+    height: $r
+    border-radius: $r
+    background-color: $color
+// align translate
+@mixin align-trans($XYZ:C)
+    @if $XYZ != C
+        transform: translate+'#{$XYZ}'+'(-50%)'
+        @if $XYZ == X
+            left: 50%
+        @if $XYZ == Y
+            top: 50%
+    
+    @if $XYZ == C
+        top: 50%
+        left: 50%
+        transform: translate(-50%,-50%)
+// background
+@mixin bg($url,$position,$size:Initial,$repeat:no-repeat)
+    background: 
+        image:  url($url)
+        position: $position
+        size: $size
+        repeat: $repeat 

@@ -1,0 +1,21 @@
+@charset "UTF-8"
+$media_l: 1199px
+$media_m: 992px
+$media_s: 768px
+
+@mixin width_l()
+    @media screen and (max-width: $media_l)
+        @content
+@mixin width_m()
+    @media screen and (max-width: $media_m)
+        @content
+@mixin width_s()
+    @media screen and (max-width: $media_s)
+        @content
+        
+@mixin bg($url,$position,$size:Initial,$repeat:no-repeat)
+    background: 
+        image:  url($url)
+        position: $position
+        size: $size
+        repeat: $repeat 
