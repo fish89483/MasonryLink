@@ -1,4 +1,4 @@
-@charset "UTF-8"
+@charset "utf-8"
 // size: rectangle or square
 @mixin size($w,$h:$w)
     width: $w
@@ -39,20 +39,20 @@
     border-radius: $r
     background-color: $color
 // align translate
-@mixin align-trans($XYZ:C)
-    @if $XYZ != C
-        transform: translate+'#{$XYZ}'+'(-50%)'
-        @if $XYZ == X
+@mixin align-trans($xyz:c)
+    @if $xyz != c
+        transform: translate+'#{$xyz}'+'(-50%)'
+        @if $xyz == x
             left: 50%
-        @if $XYZ == Y
+        @if $xyz == y
             top: 50%
     
-    @if $XYZ == C
+    @if $xyz == c
         top: 50%
         left: 50%
         transform: translate(-50%,-50%)
 // background
-@mixin bg($url,$position,$size:Initial,$repeat:no-repeat)
+@mixin bg($url,$position,$size:initial,$repeat:no-repeat)
     background: 
         image:  url($url)
         position: $position
