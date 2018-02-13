@@ -36,7 +36,9 @@
             </div>
 
             <div class="right">
+
                 <div class="searchBar">
+                    <button>add</button>
                     <span>
                         <input type="text">
                     </span>
@@ -46,9 +48,13 @@
                 <div class="case" v-masonry transition-duration="0.3s" item-selector=".card">
 
                     <div class="card" v-masonry-tile v-for="card in list">
+
                         <div class="card_content">
 
+
                             <a :href="card.pic" target="_blank" class="pic" :style="{ 'background-image' : 'url(\'' + card.pic + '\')' }"></a>
+                            <div class="title">
+                                <span class="color_bar" :style="{'background-color':'#'+card.bar}"></span><span>{{card.title}}</span></div>
                             <div class="text">{{card.text}}</div>
                         </div>
 

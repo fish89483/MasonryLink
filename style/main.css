@@ -50,14 +50,13 @@ main .content .right .searchBar > span input {
 
 main .content .right .case {
   width: 100%;
-  margin: 30px;
   padding: 0;
 }
 
 main .content .right .case .card {
   display: inline-block;
   width: 25%;
-  padding: 5px;
+  padding: 6px;
   -webkit-transition: all .1s ease;
   -o-transition: all .1s ease;
   transition: all .1s ease;
@@ -84,6 +83,26 @@ main .content .right .case .card .card_content .pic {
   background-repeat: no-repeat;
 }
 
+main .content .right .case .card .card_content .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px 10px 0;
+}
+
+main .content .right .case .card .card_content .title > span {
+  display: inline-block;
+}
+
+main .content .right .case .card .card_content .title > span:nth-child(2) {
+  font-size: 18px;
+  padding-left: 5px;
+}
+
+main .content .right .case .card .card_content .title .color_bar {
+  width: 5px;
+}
+
 main .content .right .case .card .card_content .text {
   width: 100%;
   height: auto;
@@ -92,11 +111,7 @@ main .content .right .case .card .card_content .text {
   word-break: break-all;
 }
 
-main .content .right .case .card:hover {
-  padding: 2px 5px 8px;
-}
-
 main .content .right .case .card:hover .card_content {
-  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
 }
