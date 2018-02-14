@@ -38,7 +38,15 @@
             <div class="right">
 
                 <div class="searchBar">
-                    <button>add</button>
+                    <div>
+                        <!-- <input type="file" accept="image/*" @change="upLoadImg($event)"> -->
+                        <input type="file" id="cardPic" accept="image/*">
+                        <input type="text" name="" id="cardTitle" placeholder="title">
+                        <input type="text" name="" id="cardContent" placehoder="content">
+                    </div>
+                    <button @click="addCard()">add</button>
+
+
                     <span>
                         <input type="text">
                     </span>
@@ -54,7 +62,9 @@
 
                             <a :href="card.pic" target="_blank" class="pic" :style="{ 'background-image' : 'url(\'' + card.pic + '\')' }"></a>
                             <div class="title">
-                                <span class="color_bar" :style="{'background-color':'#'+card.bar}"></span><span>{{card.title}}</span></div>
+                                <span class="color_bar" :style="{'background-color':'#'+card.bar}"></span>
+                                <span>{{card.title}}</span>
+                            </div>
                             <div class="text">{{card.text}}</div>
                         </div>
 
@@ -72,10 +82,6 @@
 
 </html>
 <script>
-    // var Vue = require('vue')
-    // var VueFire = require('vuefire')
-    // var firebase = require('firebase')
-
     // explicit installation required in module environments
     Vue.use(VueFire)
 
@@ -90,23 +96,9 @@
     };
     firebase.initializeApp(config);
 
-    let db = firebase.database();
+    const db = firebase.database();
+    const storageRef = firebase.storage().ref('/images/');
 
-
-
-
-
-
-
-
-
-
-    new Vue({
-        el: '.mainTitle',
-        data: {
-            mainTitle: 'it s work~'
-        }
-    })
 
 
     Vue.use(window['vue-masonry-plugin'].VueMasonryPlugin);
@@ -114,11 +106,69 @@
     let vm = new Vue({
         el: '#app',
         data: {
-            categories: ''
+            categories: '',
+            downloadURL:'',
+            list: []
         },
         firebase: {
             list: db.ref('case'),
-            categories: db.ref('categories')
+            categories: db.ref('categories'),
+            cardPic: db.ref('case/pic')
+        },
+        methods: {
+            addCard(e){
+                const cardTitle = document.querySelector('#cardTitle');
+                const cardContent = document.querySelector('#cardContent');
+                const file = document.querySelector('#cardPic').files[0];
+                const fileName = Math.floor(Date.now() / 1000) + `_${file.name}`;
+                const metadata = {
+                    contentType: 'image/*'
+                };
+                const uploadTask = storageRef.child(fileName).put(file, metadata);
+
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function() {
+                    storageRef.child(fileName).getDownloadURL().then(snapshot => {
+                        db.ref('case').push({
+                            title: cardTitle.value,
+                            text: cardContent.value,
+                            pic: snapshot,
+                        })
+                    })
+                })
+
+                // uploadTask.put(file, metadata)
+
+            // uploadTask;
+                
+                
+            // function upLoadImg(cardPic) {
+            //     // 取得上傳檔案的資料
+            //      const file = cardPic;
+            //     console.log(file);
+            //     const fileName = Math.floor(Date.now() / 1000) + `_${file.name}`;
+            //     const metadata = {
+            //         contentType: 'image/*'
+            //     };
+            //     const uploadTask = storageRef.child(fileName).put(file, metadata);
+            //     console.log(uploadTask)
+
+            //     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function() {
+            //         uploadTask.getDownloadURL().then(snapshot => {
+            //             this.downloadURL = snapshot
+            //         })
+            //     })
+
+            //     downloadURL = uploadTask.getDownloadURL().then(snapshot => {
+            //         this.downloadURL = snapshot
+            //     });
+            // }
+            }
+        },
+        created() {
+            db.ref('case').on('value').then(snapshot => {
+                const value = snapshot.val()
+                this.list = value
+            })
         }
     })
 </script>
