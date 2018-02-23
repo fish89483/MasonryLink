@@ -21,7 +21,7 @@
 <body>
     <header>
         <div class="content">
-            <h3 id="mainTitle">{{mainTitle}}</h3>
+            <h3 id="mainTitle">mainTitle</h3>
         </div>
     </header>
     <main>
@@ -37,21 +37,57 @@
 
             <div class="right">
 
-                <div class="searchBar">
-                    <div>
-                        <!-- <input type="file" accept="image/*" @change="upLoadImg($event)"> -->
-                        <input type="file" id="cardPic" accept="image/*">
-                        <input type="text" name="" id="cardTitle" placeholder="title">
-                        <input type="text" name="" id="cardContent" placehoder="content">
-                    </div>
-                    <button @click="addCard()">add</button>
-
+                <div class="topbar">
 
                     <span>
                         <input type="text">
                     </span>
+                    <button @click="isAddArea = !isAddArea">add</button>
+                    <!-- add -->
+                    <div class="card cardAction" :class="{toggleAction: isAddArea}">
+                        <div class="card_content">
+                            <div class="actionArea">
+                                <span @click="isAddArea = !isAddArea" :class="{toggleAction: isAddArea}">╳</span>
+                            </div>
+                            <div>
+                                <!-- <input type="file" accept="image/*" @change="upLoadImg($event)"> -->
+                                <label>
+                                    <input type="file" id="cardPic" accept="image/*"> Upload
+                                </label>
+
+                                <input type="text" name="" id="barColor" placeholder="color" value="#ffb7b7">
+                                <input type="text" name="" id="cardTitle" placeholder="title" value="Title">
+                                <textarea id="cardContent" rows="3" placehoder="content" value="Content">Content Content Content</textarea>
+                            </div>
+                            <div class="addBtn" @click="addCard()">
+                                <span>Add</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- edit -->
+                    <div class="card cardAction" :class="{toggleAction: isEditArea}">
+                        <div class="card_content">
+                            <div class="actionArea">
+                                <span @click="isEditArea = !isEditArea" :class="{toggleAction: isEditArea}">╳</span>
+                            </div>
+                            <div>
+                                <!-- <input type="file" accept="image/*" @change="upLoadImg($event)"> -->
+                                <label>
+                                    <input type="file" id="cardPic" accept="image/*"> Upload
+                                </label>
+
+                                <input type="text" name="" id="barColor" placeholder="color" value="#ffb7b7">
+                                <input type="text" name="" id="cardTitle" placeholder="title" value="Title">
+                                <textarea id="cardContent" rows="3" placehoder="content" value="Content">Content Content Content</textarea>
+                            </div>
+                            <div class="addBtn" @click="addCard()">
+                                <span>Add</span>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
+
                 <!-- masonry -->
                 <div class="case" v-masonry transition-duration="0.3s" item-selector=".card">
 
@@ -59,13 +95,23 @@
 
                         <div class="card_content">
 
-
+                            <div class="actionArea">
+                                <span @click="removeCard(card)">╳</span>
+                                <span class="editBtn" @click="editCard(card)">edit</span>
+                            </div>
                             <a :href="card.pic" target="_blank" class="pic" :style="{ 'background-image' : 'url(\'' + card.pic + '\')' }"></a>
                             <div class="title">
-                                <span class="color_bar" :style="{'background-color':'#'+card.bar}"></span>
+                                <!-- <span class="color_bar" :style="{'background-color':card.bar}"></span> -->
                                 <span>{{card.title}}</span>
+
                             </div>
-                            <div class="text">{{card.text}}</div>
+                            <div class="text">
+                                <span class="color_bar" :style="{'background-color':card.bar}"></span>
+                                <span>{{card.text}}</span>
+                                <span>
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -79,96 +125,5 @@
     </main>
     <footer></footer>
 </body>
-
+<script src="js/index.js"></script>
 </html>
-<script>
-    // explicit installation required in module environments
-    Vue.use(VueFire)
-
-    // Initialize Firebase
-    let config = {
-        apiKey: "AIzaSyCeAMQX4JdKTkpXO4aZ2p63OKTpssqmqqI",
-        authDomain: "masonrylink.firebaseapp.com",
-        databaseURL: "https://masonrylink.firebaseio.com",
-        projectId: "masonrylink",
-        storageBucket: "masonrylink.appspot.com",
-        messagingSenderId: "1049376582100"
-    };
-    firebase.initializeApp(config);
-
-    const db = firebase.database();
-    const storageRef = firebase.storage().ref('/images/');
-
-
-
-    Vue.use(window['vue-masonry-plugin'].VueMasonryPlugin);
-
-    let vm = new Vue({
-        el: '#app',
-        data: {
-            categories: '',
-            downloadURL:'',
-            list: []
-        },
-        firebase: {
-            list: db.ref('case'),
-            categories: db.ref('categories'),
-            cardPic: db.ref('case/pic')
-        },
-        methods: {
-            addCard(e){
-                const cardTitle = document.querySelector('#cardTitle');
-                const cardContent = document.querySelector('#cardContent');
-                const file = document.querySelector('#cardPic').files[0];
-                const fileName = Math.floor(Date.now() / 1000) + `_${file.name}`;
-                const metadata = {
-                    contentType: 'image/*'
-                };
-                const uploadTask = storageRef.child(fileName).put(file, metadata);
-
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function() {
-                    storageRef.child(fileName).getDownloadURL().then(snapshot => {
-                        db.ref('case').push({
-                            title: cardTitle.value,
-                            text: cardContent.value,
-                            pic: snapshot,
-                        })
-                    })
-                })
-
-                // uploadTask.put(file, metadata)
-
-            // uploadTask;
-                
-                
-            // function upLoadImg(cardPic) {
-            //     // 取得上傳檔案的資料
-            //      const file = cardPic;
-            //     console.log(file);
-            //     const fileName = Math.floor(Date.now() / 1000) + `_${file.name}`;
-            //     const metadata = {
-            //         contentType: 'image/*'
-            //     };
-            //     const uploadTask = storageRef.child(fileName).put(file, metadata);
-            //     console.log(uploadTask)
-
-            //     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function() {
-            //         uploadTask.getDownloadURL().then(snapshot => {
-            //             this.downloadURL = snapshot
-            //         })
-            //     })
-
-            //     downloadURL = uploadTask.getDownloadURL().then(snapshot => {
-            //         this.downloadURL = snapshot
-            //     });
-            // }
-            }
-        },
-        created() {
-            db.ref('case').on('value').then(snapshot => {
-                const value = snapshot.val()
-                this.list = value
-            })
-        }
-    })
-</script>

@@ -6,6 +6,12 @@
 
 body {
   background: #f2f2f2;
+  font-family: "Microsoft JhengHei",Geneva,Verdana,Arial, Helvetica,sans-serif;
+}
+
+body input, body textarea {
+  font-family: "Microsoft JhengHei",Geneva,Verdana,Arial, Helvetica,sans-serif;
+  outline: none;
 }
 
 .content {
@@ -29,7 +35,7 @@ main .content .right {
   width: 90%;
 }
 
-main .content .right .searchBar {
+main .content .right .topbar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -37,13 +43,15 @@ main .content .right .searchBar {
   -ms-flex-pack: end;
   justify-content: flex-end;
   padding: 15px 0;
+  position: relative;
+  z-index: 1;
 }
 
-main .content .right .searchBar > span {
+main .content .right .topbar > span {
   width: 30%;
 }
 
-main .content .right .searchBar > span input {
+main .content .right .topbar > span input {
   height: 30px;
   width: 100%;
 }
@@ -53,7 +61,7 @@ main .content .right .case {
   padding: 0;
 }
 
-main .content .right .case .card {
+main .content .right .card {
   display: inline-block;
   width: 25%;
   padding: 6px;
@@ -62,7 +70,7 @@ main .content .right .case .card {
   transition: all .1s ease;
 }
 
-main .content .right .case .card .card_content {
+main .content .right .card .card_content {
   -webkit-transition: all .1s ease;
   -o-transition: all .1s ease;
   transition: all .1s ease;
@@ -71,9 +79,54 @@ main .content .right .case .card .card_content {
   border-radius: 5px;
   overflow: hidden;
   background-color: #ffffff;
+  position: relative;
+  -webkit-transition: 500ms all ease;
+  -o-transition: 500ms all ease;
+  transition: 500ms all ease;
 }
 
-main .content .right .case .card .card_content .pic {
+main .content .right .card .card_content .actionArea {
+  width: 100%;
+  height: 180px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-transition: 500ms all ease;
+  -o-transition: 500ms all ease;
+  transition: 500ms all ease;
+}
+
+main .content .right .card .card_content .actionArea:hover {
+  background: rgba(0, 0, 0, 0.3);
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.2)), color-stop(85%, transparent));
+  background: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), transparent 85%);
+  background: -o-linear-gradient(rgba(0, 0, 0, 0.2), transparent 85%);
+  background: linear-gradient(rgba(0, 0, 0, 0.2), transparent 85%);
+}
+
+main .content .right .card .card_content .actionArea:hover span {
+  opacity: .7;
+}
+
+main .content .right .card .card_content .actionArea span {
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  color: #ffffff;
+  -webkit-transition: 500ms all ease;
+  -o-transition: 500ms all ease;
+  transition: 500ms all ease;
+}
+
+main .content .right .card .card_content .actionArea span.editBtn {
+  right: 30px;
+}
+
+main .content .right .card .card_content .pic {
   display: block;
   width: 100%;
   height: 180px;
@@ -83,35 +136,113 @@ main .content .right .case .card .card_content .pic {
   background-repeat: no-repeat;
 }
 
-main .content .right .case .card .card_content .title {
+main .content .right .card .card_content .title {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   padding: 10px 10px 0;
 }
 
-main .content .right .case .card .card_content .title > span {
+main .content .right .card .card_content .title > span {
   display: inline-block;
+  font-size: 20px;
 }
 
-main .content .right .case .card .card_content .title > span:nth-child(2) {
-  font-size: 18px;
-  padding-left: 5px;
-}
-
-main .content .right .case .card .card_content .title .color_bar {
+main .content .right .card .card_content .color_bar {
   width: 5px;
+  margin-right: 5px;
 }
 
-main .content .right .case .card .card_content .text {
+main .content .right .card .card_content .text {
   width: 100%;
   height: auto;
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   padding: 10px;
   word-break: break-all;
 }
 
-main .content .right .case .card:hover .card_content {
+main .content .right .card .card_content .text > span:nth-child(2) {
+  width: calc(100% - 5px - 5px);
+}
+
+main .content .right .card .card_content input, main .content .right .card .card_content textarea {
+  width: 100%;
+  border-width: 0px;
+  border-color: transparent;
+  border-bottom-width: 1px;
+  border-bottom-color: darkgray;
+}
+
+main .content .right .card .card_content textarea {
+  resize: none;
+}
+
+main .content .right .card:hover .card_content {
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+main .content .right .cardAction {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+main .content .right .cardAction.card.toggleAction {
+  display: none;
+}
+
+main .content .right .cardAction .card_content {
+  display: inline-block;
+  padding: 15px;
+}
+
+main .content .right .cardAction .card_content:hover .actionArea {
+  background: transparent;
+}
+
+main .content .right .cardAction .card_content:hover .actionArea span {
+  opacity: 1;
+}
+
+main .content .right .cardAction .card_content .actionArea {
+  pointer-events: none;
+}
+
+main .content .right .cardAction .card_content .actionArea:hover {
+  background: transparent;
+}
+
+main .content .right .cardAction .card_content .actionArea span {
+  opacity: 1;
+  color: #bbbbbb;
+  pointer-events: auto;
+}
+
+main .content .right .cardAction .card_content .addBtn span {
+  display: inline-block;
+  padding: 4px 6px;
+  background: #15aaea;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+main .content .right .cardAction .card_content label {
+  display: inline-block;
+  padding: 4px 6px;
+  background: #15aaea;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+main .content .right .cardAction .card_content label input[type="file"] {
+  display: none;
+}
+
+main .content .right .cardAction input {
+  margin-top: 15px;
 }

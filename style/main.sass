@@ -3,11 +3,17 @@
 $rightW: 90%
 $sidebarW: 100% - $rightW
 $gray: #f2f2f2
+$colorBarW: 5px
+$colorBarMargin: 5px
 * 
     box-sizing: border-box
     list-style: none
 body
     background: $gray
+    font-family: "Microsoft JhengHei",Geneva,Verdana,Arial, Helvetica,sans-serif
+    input,textarea
+        font-family: "Microsoft JhengHei",Geneva,Verdana,Arial, Helvetica,sans-serif
+        outline: none
 .content
     width: 100%
     max-width: 1200px
@@ -25,10 +31,12 @@ main
         .right
             width: $rightW
             
-            .searchBar
+            .topbar
                 display: flex
                 justify-content: flex-end
                 padding: 15px 0
+                position: relative
+                z-index: 1
                 >span
                     width: 30%
                     input
@@ -38,49 +46,133 @@ main
             
             .case
                 width: 100%
-                // column-count: 4
-                // column-gap: 20px
-                // margin: 30px
                 padding: 0
-                
-                .card
-                    display: inline-block
-                    width: 25%
-                    padding: 6px
+            .card
+                display: inline-block
+                width: 25%
+                padding: 6px
+                transition: all .1s ease
+                .card_content
                     transition: all .1s ease
-                    .card_content
-                        transition: all .1s ease
-                        box-shadow: 0px 0px 1px 0px rgba(0,0,0,.3)
-                        border-radius: 5px
-                        overflow: hidden
-                        background-color: #ffffff
-                        .pic
-                            display: block
-                            +size(100%,180px)
-                            +bg('http://fakeimg.pl/500x500/282828/eae0d0/',top center,cover)
-                        .title
-                            display: flex
-                            padding: 10px 10px 0
-                            >span
-                                display: inline-block
-                                &:nth-child(2)
-                                    font-size: 18px
-                                    padding-left: 5px
-                            .color_bar
-                                width: 5px
-                            
+                    box-shadow: 0px 0px 1px 0px rgba(0,0,0,.3)
+                    border-radius: 5px
+                    overflow: hidden
+                    background-color: #ffffff
+                    position: relative
+                    transition: 500ms all ease
+                    // &:hover
+                    //     .actionArea
+                    //         background: linear-gradient(rgba(0,0,0,.1),transparent 85%)
+                    //         span
+                    //             opacity: .9
+                        
+                    .actionArea
+                        +size(100%,180px)
+                        position: absolute
+                        top: 0
+                        right: 0
+                        transition: 500ms all ease
+                        // background: linear-gradient(transparent,transparent 85%)
+                        // background: radial-gradient(transparent 50%, rgba(0,0,0,.2), rgba(0,0,0,.3))
+                        &:hover
+                            background: rgba(0,0,0,.3)
+                            background: linear-gradient(rgba(0,0,0,.2),transparent 85%)
+                            span
+                                opacity: .7
 
-                        .text
-                            +size(100%,auto)
-                            display: block
-                            padding: 10px
-                            word-break: break-all
+                        span
+                            opacity: 0
+                            position: absolute
+                            top: 10px
+                            right: 10px
+                            cursor: pointer
+                            font-size: 1em
+                            font-weight: bold
+                            color: #ffffff
+                            transition: 500ms all ease
+                            &.editBtn
+                                right: 30px
+
+                    .pic
+                        display: block
+                        +size(100%,180px)
+                        +bg('http://fakeimg.pl/500x500/282828/eae0d0/',top center,cover)
+                    .title
+                        display: flex
+                        padding: 10px 10px 0
+                        >span
+                            display: inline-block
+                            font-size: 20px
+                            
+                    .color_bar
+                        width: $colorBarW
+                        margin-right: $colorBarMargin
+                        
+                    .text
+                        +size(100%,auto)
+                        display: flex
+                        padding: 10px
+                        word-break: break-all
+                        >span
+                            &:nth-child(2)
+                                width: calc(100% - #{$colorBarW} - #{$colorBarMargin})
+                    input,textarea
+                        width: 100%
+                        border-width: 0px
+                        border-color: transparent
+                        border-bottom-width: 1px
+                        border-bottom-color: rgb(169,169,169)
+                    textarea
+                        resize: none
+                            
+                &:hover
+                    // padding: 2px 5px 8px
+                    .card_content
+                        box-shadow: 0px 0px 5px 0px rgba(0,0,0,.3), 0px 2px 3px 0px rgba(0,0,0,.3)
+                // &:after
+                //     content: ""
+                //     display: block
+                //     clear: both
+            .cardAction
+                position: absolute
+                top: 100%
+                left: 0
+                &.card.toggleAction
+                    display: none
+                .card_content
+                    display: inline-block
+                    padding: 15px
                     &:hover
-                        // padding: 2px 5px 8px
-                        .card_content
-                            box-shadow: 0px 0px 5px 0px rgba(0,0,0,.3), 0px 2px 3px 0px rgba(0,0,0,.3)
-                    // &:after
-                    //     content: ""
-                    //     display: block
-                    //     clear: both
-                
+                        .actionArea
+                            background: rgba(0,0,0,0)
+                            span
+                                opacity: 1
+                    .actionArea
+                        pointer-events: none
+                        &:hover
+                            background: rgba(0,0,0,0)
+                        span
+                            opacity: 1
+                            color: #bbbbbb
+                            pointer-events: auto
+                    .addBtn
+                        span
+                            display: inline-block
+                            padding: 4px 6px
+                            background: #15aaea
+                            border-radius: 4px
+                            cursor: pointer
+
+                            color: #ffffff
+                    label
+                        display: inline-block
+                        padding: 4px 6px
+                        background: #15aaea
+                        border-radius: 4px
+                        cursor: pointer
+                        color: #ffffff
+                        input[type="file"]
+                            display: none
+                input
+                    margin-top: 15px
+            .editCard
