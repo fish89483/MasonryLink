@@ -85,18 +85,12 @@ main .content .right .card .card_content {
   transition: 500ms all ease;
 }
 
-main .content .right .card .card_content .actionArea {
-  width: 100%;
-  height: 180px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  -webkit-transition: 500ms all ease;
-  -o-transition: 500ms all ease;
-  transition: 500ms all ease;
+main .content .right .card .card_content:hover .actionArea span {
+  opacity: .7;
+  z-index: 1;
 }
 
-main .content .right .card .card_content .actionArea:hover {
+main .content .right .card .card_content:hover .shadow {
   background: rgba(0, 0, 0, 0.3);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.2)), color-stop(85%, transparent));
   background: -webkit-linear-gradient(rgba(0, 0, 0, 0.2), transparent 85%);
@@ -104,8 +98,13 @@ main .content .right .card .card_content .actionArea:hover {
   background: linear-gradient(rgba(0, 0, 0, 0.2), transparent 85%);
 }
 
-main .content .right .card .card_content .actionArea:hover span {
-  opacity: .7;
+main .content .right .card .card_content .actionArea {
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-transition: 500ms all ease;
+  -o-transition: 500ms all ease;
+  transition: 500ms all ease;
 }
 
 main .content .right .card .card_content .actionArea span {
@@ -124,6 +123,15 @@ main .content .right .card .card_content .actionArea span {
 
 main .content .right .card .card_content .actionArea span.editBtn {
   right: 30px;
+}
+
+main .content .right .card .card_content .shadow {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  pointer-events: none;
 }
 
 main .content .right .card .card_content .pic {
@@ -241,6 +249,11 @@ main .content .right .cardAction .card_content label {
 
 main .content .right .cardAction .card_content label input[type="file"] {
   display: none;
+}
+
+main .content .right .cardAction .card_content .showFileName {
+  height: 26px;
+  line-height: 26px;
 }
 
 main .content .right .cardAction input {

@@ -52,8 +52,9 @@
                             <div>
                                 <!-- <input type="file" accept="image/*" @change="upLoadImg($event)"> -->
                                 <label>
-                                    <input type="file" id="cardPic" accept="image/*"> Upload
+                                    <input type="file" id="cardPic" accept="image/*" @change="onFileChange"> Upload
                                 </label>
+                                <div class="showFileName">檔名　{{ showFileName }}</div>
 
                                 <input type="text" name="" id="barColor" placeholder="color" value="#ffb7b7">
                                 <input type="text" name="" id="cardTitle" placeholder="title" value="Title">
@@ -99,6 +100,7 @@
                                 <span @click="removeCard(card)">╳</span>
                                 <span class="editBtn" @click="editCard(card)">edit</span>
                             </div>
+                            <div class="shadow"></div>
                             <a :href="card.pic" target="_blank" class="pic" :style="{ 'background-image' : 'url(\'' + card.pic + '\')' }"></a>
                             <div class="title">
                                 <!-- <span class="color_bar" :style="{'background-color':card.bar}"></span> -->
